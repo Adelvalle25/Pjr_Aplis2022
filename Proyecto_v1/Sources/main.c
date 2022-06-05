@@ -4,7 +4,8 @@
 #define M 50
 #define B 200
 
-int map(int value, int RIE,int RFE, int RIS, int RFS){
+
+double map(double value, double RIE,double RFE, double RIS, double RFS){
 	return (((RFS-RIS)/(RFE-RIE))*(value)+RIS);
 }
 
@@ -68,7 +69,7 @@ void init_servo(void){
 	//TPM1CH1 PWM
 }
 
-void angle(int ang){//4800 max- 950 min
+void angle(int ang){//4500 max- 800 min
 	TPM1C1V=ang;
 }
 
@@ -83,10 +84,16 @@ void init_ultrasonico(void){
 void init_optico(void){
 	ADCCFG = 0xE0;
 	APCTL2 = 0x8;
-	ADCSC1 = 0x6B;
+	ADCSC1 = 0x2B;
 	
 	//ADP11
 }
+
+//interrupt VectorNumber_Vadc void ADC_ISR(){
+   // int a = ADCR;
+    
+//}
+int optico_dis,optico_volt,valor;
 
 void main(void) {
   EnableInterrupts;
@@ -95,19 +102,22 @@ void main(void) {
   
   init_motor1();
   init_motor2();
- // init_servo();
+  init_servo();
   //init_ultrasonico();
- // init_optico();
+  init_optico();
   
-  chPW1(300);
-  chPW2(300);
+  chPW1(0);
+  chPW2(0);
   atras();
-  //angle(950);
-
   
+  angle(800);
+
 
 
   for(;;) {
-	  
+	  if(ADCSC1_COCO==1){
+		  valor=ADCR;
+		  optico_dis=(map(valor,0,1024,0,5)/0.0098)*2.54;
+	  }
   } 
 }
