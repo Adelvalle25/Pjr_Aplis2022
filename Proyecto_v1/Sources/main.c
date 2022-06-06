@@ -4,6 +4,8 @@
 #define M 50
 #define B 200
 
+char c;
+int optico_dis,optico_volt,valor, mode=0;
 
 double map(double value, double RIE,double RFE, double RIS, double RFS){
 	return (((RFS-RIS)/(RFE-RIE))*(value)+RIS);
@@ -18,6 +20,19 @@ void delay(unsigned char T){
 		y=x/9;
 		
 	}
+}
+void sleep(int ms){
+  volatile int f=0;
+  RTCSC=0x8;
+  RTCMOD=0;
+    while(f<=ms){
+      if(RTCSC_RTIF==1){
+        f++;
+        RTCSC|=0x80;
+      }
+    }
+    RTCSC=0x0;
+    RTCMOD=0;
 }
 
 void init_motor1(void){
@@ -48,17 +63,90 @@ void init_motor2(void){
 void chPW2(int vel){
 	TPM2C0V=vel;
 }
+void stop(void){
+	PTBD_PTBD5=0;
+	PTBD_PTBD6=0;
+	PTBD_PTBD3=0;
+	PTBD_PTBD2=0;
+}
+
 void adelante(void){
+	
 	PTBD_PTBD5=0;
 	PTBD_PTBD6=1;
 	PTBD_PTBD3=1;
 	PTBD_PTBD2=0;
+	sleep(1000);
 }
 void atras(void){
 	PTBD_PTBD5=1;
 	PTBD_PTBD6=0;
 	PTBD_PTBD3=0;
 	PTBD_PTBD2=1;
+	sleep(1000);
+}
+void izquierda(void){
+	PTBD_PTBD5=1;
+	PTBD_PTBD6=0;
+	PTBD_PTBD3=1;
+	PTBD_PTBD2=0;
+	sleep(355);
+}
+void derecha(void){
+	PTBD_PTBD5=0;
+	PTBD_PTBD6=1;
+	PTBD_PTBD3=0;
+	PTBD_PTBD2=1;
+	sleep(355);
+}
+void aw(void){
+	PTBD_PTBD5=0;
+	PTBD_PTBD6=0;
+	PTBD_PTBD3=1;
+	PTBD_PTBD2=0;
+	sleep(200);
+	PTBD_PTBD5=0;
+	PTBD_PTBD6=1;
+	PTBD_PTBD3=1;
+	PTBD_PTBD2=0;
+	sleep(1000);
+}
+void wd(void){
+	PTBD_PTBD5=0;
+	PTBD_PTBD6=1;
+	PTBD_PTBD3=0;
+	PTBD_PTBD2=0;
+	sleep(200);
+	PTBD_PTBD5=0;
+	PTBD_PTBD6=1;
+	PTBD_PTBD3=1;
+	PTBD_PTBD2=0;
+	sleep(1000);
+}
+void sd(void){
+	PTBD_PTBD5=0;
+	PTBD_PTBD6=0;
+	PTBD_PTBD3=1;
+	PTBD_PTBD2=0;
+	sleep(200);
+	PTBD_PTBD5=1;
+	PTBD_PTBD6=0;
+	PTBD_PTBD3=0;
+	PTBD_PTBD2=1;
+	sleep(1000);
+}
+void sa(void){
+	PTBD_PTBD5=0;
+	PTBD_PTBD6=1;
+	PTBD_PTBD3=0;
+	PTBD_PTBD2=0;
+	sleep(200);
+	PTBD_PTBD5=1;
+	PTBD_PTBD6=0;
+	PTBD_PTBD3=0;
+	PTBD_PTBD2=1;
+	sleep(1000);
+	
 }
 void init_servo(void){
 	SOPT2=0x2;
@@ -80,6 +168,11 @@ void init_ultrasonico(void){
 	
 	//ADP10
 }
+void config_bluetooth(void){
+	SCIBD=52;
+	SCIC2=0x2C;
+}
+
 
 void init_optico(void){
 	ADCCFG = 0xE0;
@@ -89,11 +182,26 @@ void init_optico(void){
 	//ADP11
 }
 
-//interrupt VectorNumber_Vadc void ADC_ISR(){
-   // int a = ADCR;
-    
-//}
-int optico_dis,optico_volt,valor;
+void scann(void){
+	if(ADCSC1_COCO==1){
+		angle(800);
+		valor=ADCR;
+		optico_dis=(map(valor,0,255,0,5)/0.0098)*2.54;
+		
+	}
+}
+
+interrupt VectorNumber_Vscirx void re(){
+	c=SCID;
+	SCIS1=0;
+	c=SCID;
+	if(c=='m'){
+		mode=0;
+	}else{
+		mode=1;
+	}
+	
+}
 
 void main(void) {
   EnableInterrupts;
@@ -103,21 +211,51 @@ void main(void) {
   init_motor1();
   init_motor2();
   init_servo();
-  //init_ultrasonico();
-  init_optico();
-  
-  chPW1(0);
-  chPW2(0);
-  atras();
-  
-  angle(800);
-
-
+  config_bluetooth();
+  //
+  //init_optico();
+  stop();
+  chPW1(900);
+  chPW2(900);
 
   for(;;) {
-	  if(ADCSC1_COCO==1){
-		  valor=ADCR;
-		  optico_dis=(map(valor,0,1024,0,5)/0.0098)*2.54;
+	  if(mode){//bluetooth
+		 if(c=='w'){
+			adelante();
+			c='n';
+		 }else if(c=='q'){
+			 aw();
+			 c='n';
+		 }else if(c=='e'){
+			 wd();
+			 c='n';
+		 }else if(c=='s'){
+			 atras();
+			
+			 c='n';
+		 }else if(c=='z'){
+			 sa();
+			 c='n';
+		 }else if(c=='x'){
+			 sd();
+			 c='n';
+		 }else if(c=='d'){
+			 derecha();
+			 
+			 c='n';
+		 }else if(c=='a'){
+			 izquierda();
+			 
+			 c='n';
+		 }else if(c=='n'){
+			 stop();
+		 }
+	  }else {//manual
+		  init_ultrasonico();
+		  
 	  }
+	  
+	 
+	  
   } 
 }
