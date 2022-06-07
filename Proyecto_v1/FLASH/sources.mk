@@ -93,4 +93,5 @@ Sources \
 Project_Settings/Startup_Code \
 Project_Settings/Linker_Files \
 Lib \
+.Analysis\ Data \
 

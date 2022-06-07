@@ -5,7 +5,9 @@
 #define B 200
 
 char c;
-int optico_dis,optico_volt,valor, mode=0;
+
+int valor, mode;
+float dis_ultra,optico_volt,ultra_volt,dis_optico;
 
 double map(double value, double RIE,double RFE, double RIS, double RFS){
 	return (((RFS-RIS)/(RFE-RIE))*(value)+RIS);
@@ -150,7 +152,6 @@ void sa(void){
 }
 void init_servo(void){
 	SOPT2=0x2;
-	
 	TPM1SC=0xA;
 	TPM1MOD=40000;
 	TPM1C1SC=0x28;
@@ -162,9 +163,10 @@ void angle(int ang){//4500 max- 800 min
 }
 
 void init_ultrasonico(void){
+	PTADD_PTADD0=0;
 	ADCCFG = 0xE0;
-	APCTL2 = 0x4;
-	ADCSC1 = 0x6A;
+	APCTL1 = 0x1;
+	ADCSC1 = 0x20;
 	
 	//ADP10
 }
@@ -175,6 +177,7 @@ void config_bluetooth(void){
 
 
 void init_optico(void){
+	PTCDD_PTCDD3=0;
 	ADCCFG = 0xE0;
 	APCTL2 = 0x8;
 	ADCSC1 = 0x2B;
@@ -182,29 +185,20 @@ void init_optico(void){
 	//ADP11
 }
 
-void scann(void){
-	if(ADCSC1_COCO==1){
-		angle(800);
-		valor=ADCR;
-		optico_dis=(map(valor,0,255,0,5)/0.0098)*2.54;
-		
-	}
-}
 
 interrupt VectorNumber_Vscirx void re(){
 	c=SCID;
 	SCIS1=0;
-	c=SCID;
+	c=SCID;	
 	if(c=='m'){
-		mode=0;
-	}else{
-		mode=1;
-	}
-	
+			mode=0;
+		}else{
+			mode=1;
+		}
 }
 
 void main(void) {
-  EnableInterrupts;
+	EnableInterrupts;
   SOPT1_COPT=0;
   ICSTRM=175;
   
@@ -212,50 +206,98 @@ void main(void) {
   init_motor2();
   init_servo();
   config_bluetooth();
-  //
-  //init_optico();
+ 
   stop();
   chPW1(900);
   chPW2(900);
-
+  angle(800);
+  sleep(500);
+  PTBDD_PTBDD7=0;
+// angle(4500);
   for(;;) {
-	  if(mode){//bluetooth
-		 if(c=='w'){
-			adelante();
-			c='n';
-		 }else if(c=='q'){
-			 aw();
-			 c='n';
-		 }else if(c=='e'){
-			 wd();
-			 c='n';
-		 }else if(c=='s'){
-			 atras();
-			
-			 c='n';
-		 }else if(c=='z'){
-			 sa();
-			 c='n';
-		 }else if(c=='x'){
-			 sd();
-			 c='n';
-		 }else if(c=='d'){
-			 derecha();
-			 
-			 c='n';
-		 }else if(c=='a'){
-			 izquierda();
-			 
-			 c='n';
-		 }else if(c=='n'){
-			 stop();
-		 }
+	  if(PTBD_PTBD7){//bluetooth
+	 		 if(c=='w'){
+	 			adelante();
+	 			c='n';
+	 		 }else if(c=='q'){
+	 			 aw();
+	 			 c='n';
+	 		 }else if(c=='e'){
+	 			 wd();
+	 			 c='n';
+	 		 }else if(c=='s'){
+	 			 atras();
+	 			
+	 			 c='n';
+	 		 }else if(c=='z'){
+	 			 sa();
+	 			 c='n';
+	 		 }else if(c=='x'){
+	 			 sd();
+	 			 c='n';
+	 		 }else if(c=='d'){
+	 			 derecha();
+	 			 
+	 			 c='n';
+	 		 }else if(c=='a'){
+	 			 izquierda();
+	 			 
+	 			 c='n';
+	 		 }else if(c=='n'){
+	 			 stop();
+	 		 }
 	  }else {//manual
 		  init_ultrasonico();
-		  
+		 		  if(ADCSC1_COCO==1){
+		 			  ultra_volt=map(ADCR,0,1023,0,5);
+		 			  dis_ultra=(ultra_volt/0.0098)*2.54;
+		 			  if(dis_ultra<=4){ 
+		 				  stop();
+		 				  chPW1(500);
+		 				  chPW2(500);
+		 				  angle(800);
+		 				  sleep(500);
+		 				  init_optico();
+		 				  if(ADCSC1_COCO==1){
+		 					  optico_volt=map(ADCR,0,1023,0,5);		
+		 					  dis_optico=(optico_volt/0.0098)*2.54;  
+		 					  if(dis_optico>=50){
+		 						  angle(1600);
+		 						  sleep(500);
+		 						  optico_volt=map(ADCR,0,1023,0,5);		
+		 						  dis_optico=(optico_volt/0.0098)*2.54;  
+		 						  if(dis_optico>=50){
+		 							  angle(2500);
+		 							  sleep(500);
+		 							  optico_volt=map(ADCR,0,1023,0,5);		
+		 							  dis_optico=(optico_volt/0.0098)*2.54;   
+		 							  if(dis_optico>=50){
+		 								  angle(3800);
+		 								  sleep(500);
+		 								  optico_volt=map(ADCR,0,1023,0,5);		
+		 								  dis_optico=(optico_volt/0.0098)*2.54;    
+		 								  if(dis_optico>=50){
+		 									  angle(4500);
+		 									  sleep(500);
+		 									  optico_volt=map(ADCR,0,1023,0,5);		
+		 									  dis_optico=(optico_volt/0.0098)*2.54;  
+		 								  }else{
+		 										
+		 								  }
+		 						  }else{
+		 								  
+		 						  }
+		 						  }else{
+		 							
+		 					  }
+		 					  }else{
+		 					  
+		 				  }		
+		 			  }
+		 		  }else{
+		 			  adelante();
+		 		  }	
 	  }
-	  
-	 
-	  
+	  } 
   } 
 }

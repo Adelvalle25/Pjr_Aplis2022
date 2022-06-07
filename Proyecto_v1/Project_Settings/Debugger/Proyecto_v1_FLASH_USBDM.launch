@@ -87,6 +87,8 @@
 <booleanAttribute key="com.freescale.cdt.debug.cw.useSerialTransferIO" value="false"/>
 <booleanAttribute key="com.freescale.cdt.debug.cw.useStopTransferIO" value="true"/>
 <booleanAttribute key="com.freescale.cdt.debug.cw.useUDPPort" value="false"/>
+<booleanAttribute key="com.freescale.sa.mcu.launch.ENABLE_ANALYSIS" value="true"/>
+<booleanAttribute key="com.freescale.sa.mcu.launch.SET_TGT_SETTING_ON_RUN" value="true"/>
 <stringAttribute key="net.sourceforge.usbdm.connections.usbdm.Library" value="usbdm-gdi-hcs08.4"/>
 <stringAttribute key="net.sourceforge.usbdm.connections.usbdm.automaticReconnect" value="1"/>
 <stringAttribute key="net.sourceforge.usbdm.connections.usbdm.cycleTargetVddOnReset" value="0"/>

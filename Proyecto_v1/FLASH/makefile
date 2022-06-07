@@ -18,6 +18,7 @@ RM := "$(GNU_Make_Install_DirEnv)/rm" -f
 -include Project_Settings/Startup_Code/subdir.mk
 -include Project_Settings/Linker_Files/subdir.mk
 -include Lib/subdir.mk
+-include .Analysis\ Data/subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
