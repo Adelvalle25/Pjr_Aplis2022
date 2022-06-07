@@ -25,7 +25,7 @@ _startupData is allocated at 0xE084 and uses 6 Bytes
 extern struct _tagStartup {
   unsigned nofZeroOut     1
   _Range   pZeroOut       0x100     11
-  _Copy    *toCopyDownBeg 0xE880
+  _Copy    *toCopyDownBeg 0xE88E
 } _startupData;
 
 *********************************************************************************************
@@ -34,8 +34,8 @@ Section Name                    Size  Type     From       To       Segment
 ---------------------------------------------------------------------------------------------
 .init                            132     R     0xE000     0xE083   ROM
 .startData                        14     R     0xE084     0xE091   ROM
-.text                           2030     R     0xE092     0xE87F   ROM
-.copy                              2     R     0xE880     0xE881   ROM
+.text                           2044     R     0xE092     0xE88D   ROM
+.copy                              2     R     0xE88E     0xE88F   ROM
 .abs_section_ffdc                  2     R     0xFFDC     0xFFDD   .absSeg0
 .abs_section_0                     1   N/I        0x0        0x0   .absSeg1
 .abs_section_1                     1   N/I        0x1        0x1   .absSeg2
@@ -135,7 +135,7 @@ Section Name                    Size  Type     From       To       Segment
 .vectSeg94_vect                    2     R     0xFFFE     0xFFFF   .vectSeg94
 
 Summary of section sizes per section type:
-READ_ONLY (R):         886 (dec:     2182)
+READ_ONLY (R):         894 (dec:     2196)
 READ_WRITE (R/W):       4B (dec:       75)
 NO_INIT (N/I):          6C (dec:      108)
 
@@ -152,7 +152,7 @@ OBJECT-ALLOCATION SECTION
 MODULE:                 -- main_c.obj --
 - PROCEDURES:
      map                                       E092      35      53       1   .text       
-     sleep                                     E0C7      2B      43      13   .text       
+     sleep                                     E0C7      2B      43      14   .text       
      init_motor1                               E0F2      10      16       1   .text       
      chPW1                                     E102       3       3       1   .text       
      init_motor2                               E105       8       8       1   .text       
@@ -167,10 +167,11 @@ MODULE:                 -- main_c.obj --
      sd                                        E187      1C      28       1   .text       
      sa                                        E1A3      1C      28       1   .text       
      init_servo                                E1BF      11      17       1   .text       
-     init_ultrasonico                          E1D0       C      12       1   .text       
-     config_bluetooth                          E1DC       9       9       1   .text       
-     re                                        E1E5      18      24       1   .text       
-     main                                      E1FD      FF     255       2   .text       
+     angle                                     E1D0       3       3       1   .text       
+     init_ultrasonico                          E1D3       C      12       1   .text       
+     config_bluetooth                          E1DF       9       9       1   .text       
+     re                                        E1E8      18      24       1   .text       
+     main                                      E200     10A     266       2   .text       
 - VARIABLES:
      _Vector_17                                FFDC       2       2       0   .abs_section_ffdc
      c                                          100       1       1       3   .common     
@@ -272,7 +273,7 @@ MODULE:                 -- mc9s08sh8_c.obj --
      _TPM1CNT                                    21       2       2       0   .abs_section_21
      _TPM1MOD                                    23       2       2       1   .abs_section_23
      _TPM1C0V                                    26       2       2       0   .abs_section_26
-     _TPM1C1V                                    29       2       2       0   .abs_section_29
+     _TPM1C1V                                    29       2       2       1   .abs_section_29
      _SCIBD                                      38       2       2       1   .abs_section_38
      _TPM2CNT                                    61       2       2       0   .abs_section_61
      _TPM2MOD                                    63       2       2       1   .abs_section_63
@@ -284,47 +285,47 @@ MODULE:                 -- mc9s08sh8_c.obj --
      _DBGF                                     1814       2       2       0   .abs_section_1814
 MODULE:                 -- rtshc08.o (ansifs.lib) --
 - PROCEDURES:
-     _PUSH_ARGS_L                              E2FC      20      32       3   .text       
-     _ENTER_UNARY_L                            E31C      29      41       1   .text       
-     _ENTER_BINARY_L                           E345      16      22       4   .text       
-     _ENTER_BINARY_L_RC                        E35B      19      25       2   .text       
-     _ENTER_BINARY_L_LC                        E374      1A      26       1   .text       
-     _POP32                                    E38E      1A      26       2   .text       
-     F_CLRK                                    E3A8       6       6       3   .text       
-     F_CLRK_Unary                              E3AE       6       6       1   .text       
-     F_NANK                                    E3B4       6       6       3   .text       
-     F_INFK                                    E3BA       6       6       3   .text       
-     F_TLK                                     E3C0      1E      30       2   .text       
-     F_XGKL                                    E3DE      48      72       1   .text       
-     _UNPACK_k_to_K                            E426      58      88       3   .text       
-     _UNPACK_j_to_L                            E47E      58      88       3   .text       
-     _PACK_K_to_k                              E4D6      63      99       3   .text       
-     _PACK_K_to_k_Unary                        E539      4F      79       1   .text       
-     F_NORMK                                   E588      43      67       3   .text       
-     _FADD_K_is_K_plus_L                       E5CB      AD     173       1   .text       
-     _FMUL_K_is_K_times_L                      E678      88     136       1   .text       
-     _FDIV_K_is_L_div_K                        E700      B5     181       1   .text       
-     _F_FLOATK                                 E7B5      2E      46       1   .text       
-     _FCMP_k_rel_j                             E7E3      2C      44       1   .text       
-     _FADD_Common                              E80F       F      15       2   .text       
-     _FSUB_Common                              E81E       9       9       1   .text       
-     _FMUL_Common                              E827       F      15       2   .text       
-     _FDIV_Common                              E836       F      15       2   .text       
-     _FADD                                     E845       7       7       1   .text       
-     _FSUB                                     E84C       7       7       2   .text       
-     _FMUL                                     E853       7       7       1   .text       
-     _FMUL_RC                                  E85A       7       7       1   .text       
-     _FDIV                                     E861       7       7       1   .text       
-     _FDIV_RC                                  E868       7       7       1   .text       
-     _FCMP_RC                                  E86F       6       6       1   .text       
-     _FUFLOAT                                  E875       B      11       1   .text       
+     _PUSH_ARGS_L                              E30A      20      32       3   .text       
+     _ENTER_UNARY_L                            E32A      29      41       1   .text       
+     _ENTER_BINARY_L                           E353      16      22       4   .text       
+     _ENTER_BINARY_L_RC                        E369      19      25       2   .text       
+     _ENTER_BINARY_L_LC                        E382      1A      26       1   .text       
+     _POP32                                    E39C      1A      26       2   .text       
+     F_CLRK                                    E3B6       6       6       3   .text       
+     F_CLRK_Unary                              E3BC       6       6       1   .text       
+     F_NANK                                    E3C2       6       6       3   .text       
+     F_INFK                                    E3C8       6       6       3   .text       
+     F_TLK                                     E3CE      1E      30       2   .text       
+     F_XGKL                                    E3EC      48      72       1   .text       
+     _UNPACK_k_to_K                            E434      58      88       3   .text       
+     _UNPACK_j_to_L                            E48C      58      88       3   .text       
+     _PACK_K_to_k                              E4E4      63      99       3   .text       
+     _PACK_K_to_k_Unary                        E547      4F      79       1   .text       
+     F_NORMK                                   E596      43      67       3   .text       
+     _FADD_K_is_K_plus_L                       E5D9      AD     173       1   .text       
+     _FMUL_K_is_K_times_L                      E686      88     136       1   .text       
+     _FDIV_K_is_L_div_K                        E70E      B5     181       1   .text       
+     _F_FLOATK                                 E7C3      2E      46       1   .text       
+     _FCMP_k_rel_j                             E7F1      2C      44       1   .text       
+     _FADD_Common                              E81D       F      15       2   .text       
+     _FSUB_Common                              E82C       9       9       1   .text       
+     _FMUL_Common                              E835       F      15       2   .text       
+     _FDIV_Common                              E844       F      15       2   .text       
+     _FADD                                     E853       7       7       1   .text       
+     _FSUB                                     E85A       7       7       2   .text       
+     _FMUL                                     E861       7       7       1   .text       
+     _FMUL_RC                                  E868       7       7       1   .text       
+     _FDIV                                     E86F       7       7       1   .text       
+     _FDIV_RC                                  E876       7       7       1   .text       
+     _FCMP_RC                                  E87D       6       6       1   .text       
+     _FUFLOAT                                  E883       B      11       1   .text       
 - VARIABLES:
 
 *********************************************************************************************
 MODULE STATISTIC
   Name                                      Data   Code  Const
 ---------------------------------------------------------------------------------------------
-  main_c.obj                                  11    618      2
+  main_c.obj                                  11    632      2
   start08_c.obj                                0    132      0
   mc9s08sh8_c.obj                            108      0      0
   rtshc08.o (ansifs.lib)                       0   1412      0
@@ -335,8 +336,8 @@ SECTION USE IN OBJECT-ALLOCATION SECTION
 ---------------------------------------------------------------------------------------------
 SECTION: ".text"
   map sleep init_motor1 chPW1 init_motor2 chPW2 stop adelante atras izquierda 
-  derecha aw wd sd sa init_servo init_ultrasonico config_bluetooth re main 
-  _PUSH_ARGS_L _ENTER_UNARY_L _ENTER_BINARY_L _ENTER_BINARY_L_RC 
+  derecha aw wd sd sa init_servo angle init_ultrasonico config_bluetooth re 
+  main _PUSH_ARGS_L _ENTER_UNARY_L _ENTER_BINARY_L _ENTER_BINARY_L_RC 
   _ENTER_BINARY_L_LC _POP32 F_CLRK F_CLRK_Unary F_NANK F_INFK F_TLK F_XGKL 
   _UNPACK_k_to_K _UNPACK_j_to_L _PACK_K_to_k _PACK_K_to_k_Unary F_NORMK 
   _FADD_K_is_K_plus_L _FMUL_K_is_K_times_L _FDIV_K_is_L_div_K _F_FLOATK 
@@ -564,7 +565,7 @@ OBJECT LIST SORTED BY ADDRESS
      _TPM1C0SC                                   25       1       1       0   .abs_section_25
      _TPM1C0V                                    26       2       2       0   .abs_section_26
      _TPM1C1SC                                   28       1       1       1   .abs_section_28
-     _TPM1C1V                                    29       2       2       0   .abs_section_29
+     _TPM1C1V                                    29       2       2       1   .abs_section_29
      _SCIBD                                      38       2       2       1   .abs_section_38
      _SCIC1                                      3A       1       1       0   .abs_section_3a
      _SCIC2                                      3B       1       1       1   .abs_section_3b
@@ -640,7 +641,7 @@ OBJECT LIST SORTED BY ADDRESS
      Init                                      E00E      6D     109       1   .init       
      _Startup                                  E07B       9       9       0   .init       
      map                                       E092      35      53       1   .text       
-     sleep                                     E0C7      2B      43      13   .text       
+     sleep                                     E0C7      2B      43      14   .text       
      init_motor1                               E0F2      10      16       1   .text       
      chPW1                                     E102       3       3       1   .text       
      init_motor2                               E105       8       8       1   .text       
@@ -655,44 +656,45 @@ OBJECT LIST SORTED BY ADDRESS
      sd                                        E187      1C      28       1   .text       
      sa                                        E1A3      1C      28       1   .text       
      init_servo                                E1BF      11      17       1   .text       
-     init_ultrasonico                          E1D0       C      12       1   .text       
-     config_bluetooth                          E1DC       9       9       1   .text       
-     re                                        E1E5      18      24       1   .text       
-     main                                      E1FD      FF     255       2   .text       
-     _PUSH_ARGS_L                              E2FC      20      32       3   .text       
-     _ENTER_UNARY_L                            E31C      29      41       1   .text       
-     _ENTER_BINARY_L                           E345      16      22       4   .text       
-     _ENTER_BINARY_L_RC                        E35B      19      25       2   .text       
-     _ENTER_BINARY_L_LC                        E374      1A      26       1   .text       
-     _POP32                                    E38E      1A      26       2   .text       
-     F_CLRK                                    E3A8       6       6       3   .text       
-     F_CLRK_Unary                              E3AE       6       6       1   .text       
-     F_NANK                                    E3B4       6       6       3   .text       
-     F_INFK                                    E3BA       6       6       3   .text       
-     F_TLK                                     E3C0      1E      30       2   .text       
-     F_XGKL                                    E3DE      48      72       1   .text       
-     _UNPACK_k_to_K                            E426      58      88       3   .text       
-     _UNPACK_j_to_L                            E47E      58      88       3   .text       
-     _PACK_K_to_k                              E4D6      63      99       3   .text       
-     _PACK_K_to_k_Unary                        E539      4F      79       1   .text       
-     F_NORMK                                   E588      43      67       3   .text       
-     _FADD_K_is_K_plus_L                       E5CB      AD     173       1   .text       
-     _FMUL_K_is_K_times_L                      E678      88     136       1   .text       
-     _FDIV_K_is_L_div_K                        E700      B5     181       1   .text       
-     _F_FLOATK                                 E7B5      2E      46       1   .text       
-     _FCMP_k_rel_j                             E7E3      2C      44       1   .text       
-     _FADD_Common                              E80F       F      15       2   .text       
-     _FSUB_Common                              E81E       9       9       1   .text       
-     _FMUL_Common                              E827       F      15       2   .text       
-     _FDIV_Common                              E836       F      15       2   .text       
-     _FADD                                     E845       7       7       1   .text       
-     _FSUB                                     E84C       7       7       2   .text       
-     _FMUL                                     E853       7       7       1   .text       
-     _FMUL_RC                                  E85A       7       7       1   .text       
-     _FDIV                                     E861       7       7       1   .text       
-     _FDIV_RC                                  E868       7       7       1   .text       
-     _FCMP_RC                                  E86F       6       6       1   .text       
-     _FUFLOAT                                  E875       B      11       1   .text       
+     angle                                     E1D0       3       3       1   .text       
+     init_ultrasonico                          E1D3       C      12       1   .text       
+     config_bluetooth                          E1DF       9       9       1   .text       
+     re                                        E1E8      18      24       1   .text       
+     main                                      E200     10A     266       2   .text       
+     _PUSH_ARGS_L                              E30A      20      32       3   .text       
+     _ENTER_UNARY_L                            E32A      29      41       1   .text       
+     _ENTER_BINARY_L                           E353      16      22       4   .text       
+     _ENTER_BINARY_L_RC                        E369      19      25       2   .text       
+     _ENTER_BINARY_L_LC                        E382      1A      26       1   .text       
+     _POP32                                    E39C      1A      26       2   .text       
+     F_CLRK                                    E3B6       6       6       3   .text       
+     F_CLRK_Unary                              E3BC       6       6       1   .text       
+     F_NANK                                    E3C2       6       6       3   .text       
+     F_INFK                                    E3C8       6       6       3   .text       
+     F_TLK                                     E3CE      1E      30       2   .text       
+     F_XGKL                                    E3EC      48      72       1   .text       
+     _UNPACK_k_to_K                            E434      58      88       3   .text       
+     _UNPACK_j_to_L                            E48C      58      88       3   .text       
+     _PACK_K_to_k                              E4E4      63      99       3   .text       
+     _PACK_K_to_k_Unary                        E547      4F      79       1   .text       
+     F_NORMK                                   E596      43      67       3   .text       
+     _FADD_K_is_K_plus_L                       E5D9      AD     173       1   .text       
+     _FMUL_K_is_K_times_L                      E686      88     136       1   .text       
+     _FDIV_K_is_L_div_K                        E70E      B5     181       1   .text       
+     _F_FLOATK                                 E7C3      2E      46       1   .text       
+     _FCMP_k_rel_j                             E7F1      2C      44       1   .text       
+     _FADD_Common                              E81D       F      15       2   .text       
+     _FSUB_Common                              E82C       9       9       1   .text       
+     _FMUL_Common                              E835       F      15       2   .text       
+     _FDIV_Common                              E844       F      15       2   .text       
+     _FADD                                     E853       7       7       1   .text       
+     _FSUB                                     E85A       7       7       2   .text       
+     _FMUL                                     E861       7       7       1   .text       
+     _FMUL_RC                                  E868       7       7       1   .text       
+     _FDIV                                     E86F       7       7       1   .text       
+     _FDIV_RC                                  E876       7       7       1   .text       
+     _FCMP_RC                                  E87D       6       6       1   .text       
+     _FUFLOAT                                  E883       B      11       1   .text       
      _Vector_17                                FFDC       2       2       0   .abs_section_ffdc
 
 *********************************************************************************************
@@ -700,7 +702,7 @@ UNUSED-OBJECTS SECTION
 ---------------------------------------------------------------------------------------------
 NOT USED PROCEDURES
 main_c.obj:
-  delay angle init_optico 
+  delay init_optico 
 rtshc08.o (ansifs.lib):
   _PUSH_ARGS_D _ENTER_UNARY_L64 _ENTER_UNARY_L64_4 _ENTER_BINARY_L64 
   _ENTER_BINARY_L64_LC _ENTER_BINARY_L64_RC _IDIVMOD _SPLITSIGN 
@@ -737,7 +739,7 @@ rtshc08.o (ansifs.lib):
 *********************************************************************************************
 COPYDOWN SECTION
 ---------------------------------------------------------------------------------------------
-------- ROM-ADDRESS: 0xE880 ---- SIZE       2 ---
+------- ROM-ADDRESS: 0xE88E ---- SIZE       2 ---
 Filling bytes inserted
  0000
 
@@ -762,14 +764,16 @@ wd                        USES _PTBD sleep
 sd                        USES _PTBD sleep 
 sa                        USES _PTBD sleep 
 init_servo                USES _SOPT2 _TPM1SC _TPM1MOD _TPM1C1SC 
+angle                     USES _TPM1C1V 
 init_ultrasonico          USES _PTADD _ADCCFG _APCTL1 _ADCSC1 
 config_bluetooth          USES _SCIBD _SCIC2 
 re                        USES _SCID _SCIS1 c mode 
 main                      USES _SOPT1 _ICSTRM init_motor1 init_motor2 
-                                init_servo config_bluetooth stop chPW1 chPW2 _PTBDD _PTBD 
-                                c adelante aw wd atras sa sd derecha izquierda 
-                                init_ultrasonico _ADCSC1 _ADCR _FUFLOAT ultra_volt map _FDIV_RC 
-                                _FMUL_RC dis_ultra _POP32 _FCMP_RC sleep main 
+                                init_servo config_bluetooth stop chPW1 chPW2 angle sleep 
+                                _PTBDD _PTBD c adelante aw wd atras sa sd derecha 
+                                izquierda init_ultrasonico _ADCSC1 _ADCR _FUFLOAT 
+                                ultra_volt map _FDIV_RC _FMUL_RC dis_ultra _POP32 
+                                _FCMP_RC main 
 _ENTER_BINARY_L           USES _PUSH_ARGS_L 
 _ENTER_BINARY_L_RC        USES _PUSH_ARGS_L 
 _ENTER_BINARY_L_LC        USES _PUSH_ARGS_L 
@@ -816,10 +820,14 @@ DEPENDENCY TREE
  |  |    
  |  +- chPW2               
  |  |    
+ |  +- angle               
+ |  |    
+ |  +- sleep               
+ |  |    
  |  +- adelante            
  |  |  | 
- |  |  +- sleep               
- |  |       
+ |  |  +- sleep                (see above)
+ |  |     
  |  +- aw                  
  |  |  | 
  |  |  +- sleep                (see above)
@@ -965,13 +973,11 @@ DEPENDENCY TREE
  |  +- _POP32               (see above)
  |  |  
  |  +- _FCMP_RC            
- |  |  | 
- |  |  +- _ENTER_BINARY_L_RC   (see above)
- |  |  |  
- |  |  +- _FCMP_k_rel_j       
- |  |       
- |  +- sleep                (see above)
- |     
+ |     | 
+ |     +- _ENTER_BINARY_L_RC   (see above)
+ |     |  
+ |     +- _FCMP_k_rel_j       
+ |          
  +- _Startup            
     | 
     +- Init                
@@ -990,6 +996,6 @@ STATISTIC SECTION
 
 ExeFile:
 --------
-Number of blocks to be downloaded: 5
-Total size of all blocks to be downloaded: 2182
+Number of blocks to be downloaded: 4
+Total size of all blocks to be downloaded: 2196
 

@@ -1,0 +1,40 @@
+**1
+C:/Users/aadel/Desktop/Pjr_Aplis2022/Proyecto_v1/.Analysis Data/Proyecto_v1_FLASH_USBDM_0.abs
+
+**Lines
+
+"Function": "Function Name"(width 200, sort, string); "Num Calls"(width 80, sort, int); "Inclusive"(width 60, sort, float); "Min Inclusive"(width 60, sort, float); "Max Inclusive"(width 70, sort, float); "Avg Inclusive"(width 70, sort, float); "Percent Inclusive"(width 60, sort, float); "Exclusive"(width 60, sort, float); "Min Exclusive"(width 60, sort, float); "Max Exclusive"(width 70, sort, float); "Avg Exclusive"(width 70, sort, float); "Percent Exclusive"(width 60, sort, float); "Percent Total Calls"(width 70, sort, float); "Code Size"(width 70, sort, int)
+"Call Pair": "Caller"(width 200, sort, string); "Callee"(width 200, sort, string); "Num Calls"(width 80, sort, int); "Inclusive"(width 60, sort, float); "Min Inclusive"(width 60, sort, float); "Max Inclusive"(width 70, sort, float); "Avg Inclusive"(width 70, sort, float); "Percent Callee"(width 60, sort, float); "Percent Caller"(width 60, sort, float); "Call Site"(width 60, sort, int)
+**Data
+
+*0
+"Function": "sleep"(link 447); "2"; "122"; "61"; "61"; "61"; "33.06"; "122"; "61"; "61"; "61"; "33.06"; "20.00"; "43"
+"Function": "adelante"(link 764); "2"; "174"; "87"; "87"; "87"; "47.15"; "52"; "26"; "26"; "26"; "14.09"; "20.00"; "13"
+"Function": "init_ultrasonico"(link 1151); "1"; "23"; "23"; "23"; "23"; "6.23"; "23"; "23"; "23"; "23"; "6.23"; "10.00"; "12"
+"Function": "main"(link 1360); "3"; "369"; "39"; "369"; "123"; "100.00"; "100"; "9"; "75"; "33"; "27.10"; "30.00"; "266"
+"Function": "_ENTER_UNARY_L"(link 43515); "1"; "66"; "66"; "66"; "66"; "17.89"; "66"; "66"; "66"; "66"; "17.89"; "10.00"; "41"
+"Function": "_FUFLOAT"(link 55987); "1"; "72"; "72"; "72"; "72"; "19.51"; "6"; "6"; "6"; "6"; "1.63"; "10.00"; "11"
+
+*447
+"Call Pair": "adelante"; "sleep"; "2"; "122"; "61"; "61"; "61"; "100.00"; "100.00"; "0xe124"
+
+*764
+"Call Pair": "main"; "adelante"; "2"; "174"; "87"; "87"; "87"; "100.00"; "27.66"; "0xe23d"
+"Call Pair": "adelante"; "sleep"; "2"; "122"; "61"; "61"; "61"; "100.00"; "100.00"; "0xe124"
+
+*1151
+"Call Pair": "main"; "init_ultrasonico"; "1"; "23"; "23"; "23"; "23"; "100.00"; "3.66"; "0xe28b"
+
+*1360
+"Call Pair": "main"; "main"; "2"; "360"; "39"; "360"; "180"; "97.56"; "57.23"; "0xe307"
+"Call Pair": "main"; "adelante"; "2"; "174"; "87"; "87"; "87"; "100.00"; "27.66"; "0xe23d"
+"Call Pair": "main"; "init_ultrasonico"; "1"; "23"; "23"; "23"; "23"; "100.00"; "3.66"; "0xe28b"
+"Call Pair": "main"; "_FUFLOAT"; "1"; "72"; "72"; "72"; "72"; "100.00"; "11.45"; "0xe299"
+
+*43515
+"Call Pair": "_FUFLOAT"; "_ENTER_UNARY_L"; "1"; "66"; "66"; "66"; "66"; "100.00"; "100.00"; "0xe883"
+
+*55987
+"Call Pair": "main"; "_FUFLOAT"; "1"; "72"; "72"; "72"; "72"; "100.00"; "11.45"; "0xe299"
+"Call Pair": "_FUFLOAT"; "_ENTER_UNARY_L"; "1"; "66"; "66"; "66"; "66"; "100.00"; "100.00"; "0xe883"
+

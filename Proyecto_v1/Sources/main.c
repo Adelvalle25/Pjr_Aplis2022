@@ -282,16 +282,24 @@ void main(void) {
 		 									  optico_volt=map(ADCR,0,1023,0,5);		
 		 									  dis_optico=(optico_volt/0.0098)*2.54;  
 		 								  }else{
-		 										
+		 									derecha();
+		 									sleep(1000);
+		 									derecha();
 		 								  }
 		 						  }else{
-		 								  
+		 							sd();
+		 							sleep(1000);
+		 							sd();
 		 						  }
 		 						  }else{
-		 							
+		 							sa();
+		 							sleep(1000);
+		 							sa();
 		 					  }
 		 					  }else{
-		 					  
+		 					  izquierda();
+		 					  sleep(1000)
+		 					  izquierda();
 		 				  }		
 		 			  }
 		 		  }else{
