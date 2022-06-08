@@ -76,30 +76,30 @@ void adelante(void){
 	
 	PTBD_PTBD5=0;
 	PTBD_PTBD6=1;
-	PTBD_PTBD3=1;
-	PTBD_PTBD2=0;
-	sleep(1000);
+	PTBD_PTBD3=0;
+	PTBD_PTBD2=1;
+	sleep(700);
 }
 void atras(void){
 	PTBD_PTBD5=1;
 	PTBD_PTBD6=0;
-	PTBD_PTBD3=0;
-	PTBD_PTBD2=1;
-	sleep(1000);
+	PTBD_PTBD3=1;
+	PTBD_PTBD2=0;
+//	sleep(1000);
 }
 void izquierda(void){
 	PTBD_PTBD5=1;
 	PTBD_PTBD6=0;
-	PTBD_PTBD3=1;
-	PTBD_PTBD2=0;
-	sleep(355);
+	PTBD_PTBD3=0;
+	PTBD_PTBD2=1;
+	//sleep(355);
 }
 void derecha(void){
 	PTBD_PTBD5=0;
 	PTBD_PTBD6=1;
-	PTBD_PTBD3=0;
-	PTBD_PTBD2=1;
-	sleep(355);
+	PTBD_PTBD3=1;
+	PTBD_PTBD2=0;
+	//sleep(355);
 }
 void aw(void){
 	PTBD_PTBD5=0;
@@ -109,8 +109,8 @@ void aw(void){
 	sleep(200);
 	PTBD_PTBD5=0;
 	PTBD_PTBD6=1;
-	PTBD_PTBD3=1;
-	PTBD_PTBD2=0;
+	PTBD_PTBD3=0;
+	PTBD_PTBD2=1;
 	sleep(1000);
 }
 void wd(void){
@@ -121,8 +121,8 @@ void wd(void){
 	sleep(200);
 	PTBD_PTBD5=0;
 	PTBD_PTBD6=1;
-	PTBD_PTBD3=1;
-	PTBD_PTBD2=0;
+	PTBD_PTBD3=0;
+	PTBD_PTBD2=1;
 	sleep(1000);
 }
 void sd(void){
@@ -133,8 +133,8 @@ void sd(void){
 	sleep(200);
 	PTBD_PTBD5=1;
 	PTBD_PTBD6=0;
-	PTBD_PTBD3=0;
-	PTBD_PTBD2=1;
+	PTBD_PTBD3=1;
+	PTBD_PTBD2=0;
 	sleep(1000);
 }
 void sa(void){
@@ -145,8 +145,8 @@ void sa(void){
 	sleep(200);
 	PTBD_PTBD5=1;
 	PTBD_PTBD6=0;
-	PTBD_PTBD3=0;
-	PTBD_PTBD2=1;
+	PTBD_PTBD3=1;
+	PTBD_PTBD2=0;
 	sleep(1000);
 	
 }
@@ -196,24 +196,24 @@ interrupt VectorNumber_Vscirx void re(){
 			mode=1;
 		}
 }
-
+int h,scase;
 void main(void) {
 	EnableInterrupts;
-  SOPT1_COPT=0;
-  ICSTRM=175;
+	SOPT1_COPT=0;
+	ICSTRM=175;
   
-  init_motor1();
-  init_motor2();
-  init_servo();
-  config_bluetooth();
+	init_motor1();
+	init_motor2();
+	init_servo();
+	config_bluetooth();
  
-  stop();
-  chPW1(900);
-  chPW2(900);
-  angle(800);
-  sleep(500);
-  PTBDD_PTBDD7=0;
-// angle(4500);
+	stop();
+	chPW1(500);
+	chPW2(500);
+	angle(800);
+	sleep(500);
+	PTBDD_PTBDD7=0;
+
   for(;;) {
 	  if(PTBD_PTBD7){//bluetooth
 	 		 if(c=='w'){
@@ -227,7 +227,7 @@ void main(void) {
 	 			 c='n';
 	 		 }else if(c=='s'){
 	 			 atras();
-	 			
+	 			sleep(700);
 	 			 c='n';
 	 		 }else if(c=='z'){
 	 			 sa();
@@ -237,75 +237,82 @@ void main(void) {
 	 			 c='n';
 	 		 }else if(c=='d'){
 	 			 derecha();
-	 			 
+	 			sleep(500);
 	 			 c='n';
 	 		 }else if(c=='a'){
 	 			 izquierda();
-	 			 
+	 			sleep(500);
 	 			 c='n';
 	 		 }else if(c=='n'){
 	 			 stop();
 	 		 }
 	  }else {//manual
-		  init_ultrasonico();
-		 		  if(ADCSC1_COCO==1){
-		 			  ultra_volt=map(ADCR,0,1023,0,5);
-		 			  dis_ultra=(ultra_volt/0.0098)*2.54;
-		 			  if(dis_ultra<=4){ 
-		 				  stop();
-		 				  chPW1(500);
-		 				  chPW2(500);
-		 				  angle(800);
-		 				  sleep(500);
-		 				  init_optico();
-		 				  if(ADCSC1_COCO==1){
-		 					  optico_volt=map(ADCR,0,1023,0,5);		
-		 					  dis_optico=(optico_volt/0.0098)*2.54;  
-		 					  if(dis_optico>=50){
-		 						  angle(1600);
-		 						  sleep(500);
-		 						  optico_volt=map(ADCR,0,1023,0,5);		
-		 						  dis_optico=(optico_volt/0.0098)*2.54;  
-		 						  if(dis_optico>=50){
-		 							  angle(2500);
-		 							  sleep(500);
-		 							  optico_volt=map(ADCR,0,1023,0,5);		
-		 							  dis_optico=(optico_volt/0.0098)*2.54;   
-		 							  if(dis_optico>=50){
-		 								  angle(3800);
-		 								  sleep(500);
-		 								  optico_volt=map(ADCR,0,1023,0,5);		
-		 								  dis_optico=(optico_volt/0.0098)*2.54;    
-		 								  if(dis_optico>=50){
-		 									  angle(4500);
-		 									  sleep(500);
-		 									  optico_volt=map(ADCR,0,1023,0,5);		
-		 									  dis_optico=(optico_volt/0.0098)*2.54;  
-		 								  }else{
-		 									derecha();
-		 									sleep(1000);
-		 									derecha();
-		 								  }
-		 						  }else{
-		 							sd();
-		 							sleep(1000);
-		 							sd();
-		 						  }
-		 						  }else{
-		 							sa();
-		 							sleep(1000);
-		 							sa();
-		 					  }
-		 					  }else{
-		 					  izquierda();
-		 					  sleep(1000)
-		 					  izquierda();
-		 				  }		
-		 			  }
-		 		  }else{
-		 			  adelante();
-		 		  }	
-	  }
-	  } 
-  } 
+
+  	  	  chPW1(500);
+ 	  	  chPW2(500);
+ 		  init_ultrasonico();
+ 		  sleep(1000);
+ 		  angle(840);
+ 		  sleep(500);
+ 		  ultra_volt=map(ADCR,0,1023,0,5);
+ 		  dis_ultra=(ultra_volt/0.0098)*2.54;
+ 		  if(dis_ultra<=5){ 
+ 			  h=1;
+ 			  stop();
+ 			  
+ 		  }else{
+ 			  h=0;
+ 			  adelante();
+ 			 //sleep(1000);
+ 			 stop();
+ 			  
+ 		  }	  
+ 		  if(h==1){
+ 			  init_optico();
+ 			  sleep(1000);
+ 			  optico_volt=map(ADCR,0,1023,0,5);
+ 			   dis_optico=(optico_volt/0.0098)*2.54;
+ 			   scase=0;
+ 			   
+ 		 	 if(dis_optico>=50){
+ 		 		 angle(4400);
+ 		 		 
+ 		 		 sleep(1000);
+ 		 		 optico_volt=map(ADCR,0,1023,0,5);
+ 		 		 dis_optico=(optico_volt/0.0098)*2.54;
+ 		 		 scase=1;
+ 		 	 }
+ 		 	 
+ 		 	 if(dis_optico>=50){
+ 		 		 angle(2500);
+ 		 		 sleep(1000);
+ 		 		 optico_volt=map(ADCR,0,1023,0,5);
+ 		 		 dis_optico=(optico_volt/0.0098)*2.54;
+ 		 		 scase=2;
+ 		 	 }
+ 		 	
+ 		 	 
+ 		  }
+ 		  if(scase==0){
+ 			  izquierda();
+ 			  sleep(500);
+ 			  stop();
+ 		  }
+ 		  
+ 		  if(scase==1){
+ 			  derecha();
+ 			  sleep(500);
+ 			  stop();
+ 		  }
+ 		  if(scase==2){
+ 			  atras();
+ 			  sleep(500);
+ 			  izquierda();
+ 			  sleep(500);
+ 			  izquierda();
+ 			  stop();
+ 		  }
+  } 	
+}	
 }
+	
